@@ -6,10 +6,11 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
+
 @Entity
 @Table(name="user")
 @Data
-public class Use {
+public class User {
    @Id
    Long id;
    String userName;
