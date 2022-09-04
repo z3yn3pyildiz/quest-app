@@ -3,6 +3,10 @@ package com.example.questApp.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.questApp.services.UserService;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,48 +20,40 @@ import com.example.questApp.entities.User;
 import com.example.questApp.repos.UserRepository;
 
 
+@Data
 @RestController
 @RequestMapping("/users")
 public class UserController {
 	
-	private UserRepository _userRepository;
-	public UserController(UserRepository userRepository) {
-		this._userRepository=userRepository;
+	private UserService _userService;
+	public UserController(UserService userService) {
+		this._userService=userService;
 	}
 	
 	@GetMapping
 	public List<User> getAllUsers(){
-		return _userRepository.findAll();
+		return _userService.GetAllUsers();
 	}
 	
 	@PostMapping
 	public User createUser(@RequestBody User newUser) {
-		return _userRepository.save(newUser);
+		return _userService.SaveUser(newUser);
 	}
 	
 	@GetMapping("/{userId}")
 	public User getOneUser(@PathVariable Long userId) {
 		//custom exception
-		return _userRepository.findById(userId).orElse(null);
+		return _userService.FindUserById(userId);
 	}
 	
 	@PutMapping("/{userId}")
 	public User updateOneUser(@PathVariable Long userId,@RequestBody User updateUser) {
-		Optional<User> user= _userRepository.findById(userId);
-		if(user.isPresent()) {
-			User foundUser = user.get();
-			foundUser.setUserName(updateUser.getUserName());
-			foundUser.setPassWord((updateUser.getPassWord()));
-			_userRepository.save(foundUser);
-			return foundUser;
-		}else {
-			return null;
-		}
+         return  _userService.UpdateUser(userId,updateUser);
 	}
 	
 	@DeleteMapping("/{userId}")
 	public void deleteOneUser(@PathVariable Long userId) {
-		_userRepository.deleteById(userId);
+		_userService.DeleteUserById(userId);
 	}
 	
 

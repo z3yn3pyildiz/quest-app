@@ -1,10 +1,11 @@
 package com.example.questApp.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name="p_like")
@@ -13,6 +14,16 @@ public class Like {
 
 	@Id
 	Long id;
-	Long postId;
-	Long userId;
+	//long postId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "post_id", nullable = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JsonIgnore
+	Post post;
+	//Long userId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", nullable = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JsonIgnore
+	User user;
 }
