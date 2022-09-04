@@ -39,7 +39,7 @@ public class CommentController {
         return _commentService.UpdateOneComment(commentId,updateRequest);
     }
 
-    @DeleteMapping("/{commentId")
+    @DeleteMapping("/{commentId}")
     public void deleteOneComment(@PathVariable Long commentId){
         _commentService.DeleteOneComment(commentId);
     }
