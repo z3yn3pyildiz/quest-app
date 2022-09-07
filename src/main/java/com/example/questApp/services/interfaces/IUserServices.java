@@ -1,7 +1,6 @@
 package com.example.questApp.services.interfaces;
 
 import com.example.questApp.entities.User;
-
 import java.util.List;
 
 public interface IUserServices {

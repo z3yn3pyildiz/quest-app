@@ -34,7 +34,7 @@ public class CommentController {
         return _commentService.CreateOneComment(createRequest);
     }
 
-    @PutMapping("/{commetId}")
+    @PutMapping("/{commentId}")
     public Comment updateOneComment(@PathVariable Long commentId, @RequestBody CommentUpdateRequest updateRequest){
         return _commentService.UpdateOneComment(commentId,updateRequest);
     }

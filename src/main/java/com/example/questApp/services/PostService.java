@@ -6,11 +6,12 @@ import com.example.questApp.repos.PostRepository;
 import com.example.questApp.requests.PostCreateRequest;
 import com.example.questApp.requests.PostUpdateRequest;
 import com.example.questApp.services.interfaces.IPostService;
-import com.example.questApp.services.interfaces.IUserServices;
 import org.springframework.stereotype.Service;
+import com.example.questApp.responces.PostResponse;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService implements IPostService{
@@ -24,10 +25,13 @@ public class PostService implements IPostService{
     }
 
     @Override
-    public List<Post> GetAllPosts(Optional<Long> userId) {
-        if(userId.isPresent())
-            return _postRepository.findByUserId(userId.get());
-        return _postRepository.findAll();
+    public List<PostResponse> GetAllPosts(Optional<Long> userId) {
+        List<Post> list;
+        if(userId.isPresent()) {
+            list = _postRepository.findByUserId(userId.get());
+        }
+        else list = _postRepository.findAll();
+        return list.stream().map(p-> new PostResponse(p)).collect((Collectors.toList()));
     }
 
     @Override

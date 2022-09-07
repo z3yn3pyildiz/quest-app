@@ -1,6 +1,5 @@
 package com.example.questApp.services;
 
-import com.example.questApp.entities.Comment;
 import com.example.questApp.entities.Like;
 import com.example.questApp.entities.Post;
 import com.example.questApp.entities.User;
@@ -8,7 +7,6 @@ import com.example.questApp.repos.LikeRepository;
 import com.example.questApp.requests.LikeCreateRequest;
 import com.example.questApp.services.interfaces.ILikeService;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 

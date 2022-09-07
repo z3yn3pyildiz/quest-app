@@ -4,7 +4,6 @@ import com.example.questApp.entities.User;
 import com.example.questApp.repos.UserRepository;
 import com.example.questApp.services.interfaces.IUserServices;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
