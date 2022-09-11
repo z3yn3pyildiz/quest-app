@@ -3,6 +3,8 @@ package com.example.questApp.responces;
 import com.example.questApp.entities.Post;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class PostResponse {
 
@@ -16,11 +18,14 @@ public class PostResponse {
 
     String text;
 
-    public PostResponse(Post entity){
+    List<LikeResponse> postLikes;
+
+    public PostResponse(Post entity,List<LikeResponse> likes){
         this.id = entity.getId();
         this.userId = entity.getUser().getId();
         this.userName =  entity.getUser().getUserName();
         this.title = entity.getTitle();
         this.text = entity.getText();
+        this.postLikes = likes;
     }
 }

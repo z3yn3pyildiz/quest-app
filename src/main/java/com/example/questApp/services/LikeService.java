@@ -5,10 +5,12 @@ import com.example.questApp.entities.Post;
 import com.example.questApp.entities.User;
 import com.example.questApp.repos.LikeRepository;
 import com.example.questApp.requests.LikeCreateRequest;
+import com.example.questApp.responces.LikeResponse;
 import com.example.questApp.services.interfaces.ILikeService;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class LikeService implements ILikeService {
@@ -23,14 +25,17 @@ public class LikeService implements ILikeService {
     }
 
     @Override
-    public List<Like> GetAllLikes(Optional<Long> userId, Optional<Long> postId) {
+    public List<LikeResponse> GetAllLikes(Optional<Long> userId, Optional<Long> postId) {
+        List<Like> likes;
         if(userId.isPresent() && postId.isPresent() )
-            return _likeRepository.findByUserIdAndPostId(userId.get(),postId.get());
+            likes = _likeRepository.findByUserIdAndPostId(userId.get(),postId.get());
         else if(userId.isPresent())
-            return _likeRepository.findByUserId(userId.get());
+            likes = _likeRepository.findByUserId(userId.get());
         else if(postId.isPresent())
-            return _likeRepository.findByPostId(postId.get());
-        return _likeRepository.findAll();
+            likes = _likeRepository.findByPostId(postId.get());
+        else
+            likes = _likeRepository.findAll();
+        return  likes.stream().map(like -> new LikeResponse(like)).collect((Collectors.toList()));
     }
 
     @Override

@@ -13,6 +13,7 @@ import org.hibernate.annotations.OnDeleteAction;
 public class Like {
 
 	@Id
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	Long id;
 	//long postId;
 	@ManyToOne(fetch = FetchType.LAZY)

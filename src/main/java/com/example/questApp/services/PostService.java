@@ -1,11 +1,15 @@
 package com.example.questApp.services;
 
+import com.example.questApp.entities.Like;
 import com.example.questApp.entities.Post;
 import com.example.questApp.entities.User;
+import com.example.questApp.repos.LikeRepository;
 import com.example.questApp.repos.PostRepository;
 import com.example.questApp.requests.PostCreateRequest;
 import com.example.questApp.requests.PostUpdateRequest;
+import com.example.questApp.responces.LikeResponse;
 import com.example.questApp.services.interfaces.IPostService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.questApp.responces.PostResponse;
 
@@ -19,11 +23,16 @@ public class PostService implements IPostService{
     private UserService _userService;
     private PostRepository _postRepository;
 
+    private LikeService _likeSerive;
+
     public PostService(UserService userService, PostRepository postRepository) {
         this._postRepository=postRepository;
         this._userService = userService;
     }
-
+    @Autowired
+    public void setLikeService(LikeService likeSerive){
+        this._likeSerive=likeSerive;
+    }
     @Override
     public List<PostResponse> GetAllPosts(Optional<Long> userId) {
         List<Post> list;
@@ -31,10 +40,11 @@ public class PostService implements IPostService{
             list = _postRepository.findByUserId(userId.get());
         }
         else list = _postRepository.findAll();
-        return list.stream().map(p-> new PostResponse(p)).collect((Collectors.toList()));
+        return list.stream().map(p->{
+               List<LikeResponse> likes=_likeSerive.GetAllLikes(Optional.ofNullable(null), Optional.of(p.getId()));
+               return new PostResponse(p,likes);}).collect((Collectors.toList()));
     }
 
-    @Override
     public Post GetOnePost(Long postId) {
         return _postRepository.findById(postId).orElse(null);
     }
