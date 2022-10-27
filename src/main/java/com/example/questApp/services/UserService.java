@@ -2,6 +2,7 @@ package com.example.questApp.services;
 
 import com.example.questApp.entities.User;
 import com.example.questApp.repos.UserRepository;
+import com.example.questApp.requests.UserRequest;
 import com.example.questApp.services.interfaces.IUserServices;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -48,4 +49,10 @@ public class UserService implements IUserServices {
             return null;
         }
     }
+
+    @Override
+    public User GetUserByName(String registerRequest) {
+        return  _userRepository.findByUserName(registerRequest);
+    }
+
 }
